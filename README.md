@@ -13,15 +13,15 @@ I could improve the speed of preparing the date and inserting 200,000 less than 
  
 ------------------------------------------------------------------------------------
 My name is Mehrdad Salimian. This is my first time Golang project. My time is very limited. But I made an effort to dedicate two days for implementing this project. I am .net developer and I have had 14 years’ experience for designing and developing application. I tried to use some features, tools and principals in this project such as:
-1- Goroutines
-2- goCron
-3- GORM
-4- Bulk insert for enhance the performance of insert
-5- Chunk the data which obtain from csv file.
-6- Graceful shutdown for my Webapi by gorutine and context
-7- Create layering such as data layer and csv service
-8- Using transaction in my bulk insert
-9- AutoMigrate mechanism
+1. Goroutines
+2. goCron
+3. GORM
+4. Bulk insert for enhance the performance of insert
+5. Chunk the data which obtain from csv file.
+6. Graceful shutdown for my Webapi by gorutine and context
+7. Create layering such as data layer and csv service
+8. Using transaction in my bulk insert
+9. AutoMigrate mechanism
 
 
 
