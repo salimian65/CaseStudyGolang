@@ -8,6 +8,13 @@ require (
 )
 
 require (
+	github.com/robfig/cron/v3 v3.0.1 // indirect
+	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
+)
+
+require (
+	github.com/go-co-op/gocron v1.13.0
+	github.com/jasonlvhit/gocron v0.0.1
 	github.com/jinzhu/gorm v1.9.16
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect

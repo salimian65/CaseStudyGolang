@@ -26,11 +26,14 @@ func (handle PromotionRestApiHandler) returnSinglePromotion(w http.ResponseWrite
 	if !ok {
 		w.WriteHeader(http.StatusBadGateway)
 		fmt.Fprintln(w, "not found")
+		return
 	}
 
 	promotion, err := handle.dbhandler.GetPromitionById(key)
 	if err != nil {
+		w.WriteHeader(http.StatusBadGateway)
 		fmt.Fprintln(w, "not found")
+		return
 	}
 
 	json.NewEncoder(w).Encode(promotion)

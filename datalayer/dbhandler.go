@@ -19,7 +19,7 @@ func CreateDBConnection(connString string) (*SQLHandler, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	db.AutoMigrate(&models.Promotion{})
 	return &SQLHandler{
 		db: db,
 	}, nil
@@ -81,20 +81,14 @@ func (handler *SQLHandler) DeletePromotion(promotion models.Promotion) error {
 	return err
 }
 
-func (handler *SQLHandler) TruncatePromotion() error {
+func (handler *SQLHandler) TruncatePromotions() error {
 	_, err := handler.db.DB().Exec("TRUNCATE table promotions")
 	return err
 }
 
-func (handler *SQLHandler) BenchmarkBulkCreate(size int, promotions []models.Promotion) error {
-	// db, err := gorm.Open("mysql", "root:S@limian65@tcp(127.0.0.1:3306)/mydb")
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// defer db.Close()
-	// handler.db.Begin()
+func (handler *SQLHandler) BulkInsert(size int, promotions []models.Promotion) error {
 	tx := handler.db.Begin()
-	chunkList := chank1(promotions, size)
+	chunkList := chunk(promotions, size)
 	for _, chunk := range chunkList {
 		valueStrings := []string{}
 		valueArgs := []interface{}{}
@@ -105,7 +99,7 @@ func (handler *SQLHandler) BenchmarkBulkCreate(size int, promotions []models.Pro
 			valueArgs = append(valueArgs, promotion.Time)
 		}
 
-		stmt := fmt.Sprintf("INSERT INTO `mydb`.`promotions` (`Id`,`Price`,`EntryDateTime`) VALUES %s", strings.Join(valueStrings, ","))
+		stmt := fmt.Sprintf("INSERT INTO `mydb`.`promotions` (`Id`,`Price`,`Time`) VALUES %s", strings.Join(valueStrings, ","))
 		err := tx.Exec(stmt, valueArgs...).Error
 		if err != nil {
 			tx.Rollback()
@@ -119,7 +113,7 @@ func (handler *SQLHandler) BenchmarkBulkCreate(size int, promotions []models.Pro
 	return nil
 }
 
-func chank1(list []models.Promotion, size int) [][]models.Promotion {
+func chunk(list []models.Promotion, size int) [][]models.Promotion {
 
 	var divided [][]models.Promotion
 
@@ -136,33 +130,3 @@ func chank1(list []models.Promotion, size int) [][]models.Promotion {
 	}
 	return divided
 }
-
-// func (handler *SQLHandler) bulkInsert(ssss [][]string) error {
-
-// 	users := ssss
-// 	size := 500
-// 	tx, err := handler.db.Begin()
-
-// 	chunkList := funk.Chunk(users, size)
-// 	for _, chunk := range chunkList.([][]*User) {
-// 		valueStrings := []string{}
-// 		valueArgs := []interface{}{}
-// 		for _, user := range chunk {
-// 			valueStrings = append(valueStrings, "(?, ?)")
-// 			valueArgs = append(valueArgs, user.Name)
-// 			valueArgs = append(valueArgs, user.Password)
-// 		}
-
-// 		stmt := fmt.Sprintf("INSERT INTO users (name, password) VALUES %s", strings.Join(valueStrings, ","))
-// 		_, err = handler.db.Exec(stmt)
-// 		if err != nil {
-// 			tx.Rollback()
-// 			fmt.Println(err)
-// 		}
-// 	}
-// 	err = tx.Commit()
-// 	if err != nil {
-// 		fmt.Println(err)
-// 	}
-// 	return nil
-// }
