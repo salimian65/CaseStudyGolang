@@ -6,6 +6,8 @@ Please clone the project and run => `go run .\main.go`
 Also build the project => `go build .\main.go`  for creating main.exe
 
 It provides you with a rest api for fetching the data per Id, Id is a Guid 
+
+## Sample url
 http://localhost:8384/promotions/10121f45-45bf-4350-9547-d2961eda4329
 
 For enhancing the process of csv file, I use bulk insert also chunk the data, which chunked by 1000. This chunkSize is an editable variable.
@@ -21,7 +23,7 @@ I could improve the speed of preparing the date and inserting 200,000 less than 
 
  I think if I execute each chunked data in a separate gorutiue may be it gives a better result but I don't enough time to test it. I was looking for a mechanism in Golang equivalent to `Parallel.ForEach` in **c#**
  
----
+ 
 ## Features, tools and principals that use in this code
 1. Goroutines
 2. GoCron
@@ -33,7 +35,7 @@ I could improve the speed of preparing the date and inserting 200,000 less than 
 8. Using transaction in my bulk insert
 9. AutoMigrate mechanism
 
----
+
 ## My story
 My name is Mehrdad Salimian. This is my first time Golang project. My time is very limited. But I made an effort to dedicate two days for implementing this project. I am .net developer and I have had 14 years’ experience for designing and developing application. I have heard a lot about the Golang benefits and performances, therefore, I was a bit excited when was engaged in this project also I have a great passion to develop with Golang.
 
