@@ -24,7 +24,7 @@ func RunApi(endpoint string, db datalayer.SQLHandler) error {
 		cancel()
 	}()
 
-	if err := serve(ctx, db); err != nil {
+	if err := serve(ctx, db, endpoint); err != nil {
 		log.Printf("failed to serve:+%v\n", err)
 		return err
 	}
@@ -39,14 +39,14 @@ func RunApiOnRouter(r *mux.Router, db datalayer.SQLHandler) {
 		handler.returnSinglePromotion)
 }
 
-func serve(ctx context.Context, db datalayer.SQLHandler) (err error) {
+func serve(ctx context.Context, db datalayer.SQLHandler, endpoint string) (err error) {
 	handler := newPromotionRestApiHandler(db)
 	myRouter := mux.NewRouter().StrictSlash(true)
 
 	myRouter.HandleFunc("/promotions/{id}", handler.returnSinglePromotion).Methods("GET")
 
 	srv := &http.Server{
-		Addr:    ":6999",
+		Addr:    endpoint,
 		Handler: myRouter,
 	}
 

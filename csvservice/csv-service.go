@@ -3,7 +3,6 @@ package csvservice
 import (
 	"encoding/csv"
 	"fmt"
-	"io"
 	"os"
 	"strconv"
 	"test01/datalayer"
@@ -21,35 +20,58 @@ func ProcessCsvFile(filePath string, db datalayer.SQLHandler) error {
 
 	//-------------------------------------------------------------------
 	csvLines := csv.NewReader(csvFile)
-	number := 0
-	for {
-		record, err := csvLines.Read()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			return err
-		}
-		number += 1
-		priceFloat, err := strconv.ParseFloat(record[1], 64)
-
+	csvLines2, err := csvLines.ReadAll()
+	fmt.Println(len(csvLines2))
+	var promotions []models.Promotion
+	for _, line := range csvLines2 {
+		priceFloat, err := strconv.ParseFloat(line[1], 64)
 		promotion := models.Promotion{
-			Id:    record[0],
+			Id:    line[0],
 			Price: priceFloat,
-			Time:  record[2],
+			Time:  line[2],
 		}
 
-		err = db.AddPromotion(promotion)
+		promotions = append(promotions, promotion)
 		if err != nil {
 			panic(err.Error())
 		}
 
-		fmt.Println(promotion.Id + " " + fmt.Sprintf("%f", promotion.Price) + " " + promotion.Time)
-
-		if number == 5 {
-			break
-		}
+		// if i == 9 {
+		// 	break
+		// }
 	}
+
+	err = db.BenchmarkBulkCreate(500, promotions)
+
+	//number := 0
+	// for {
+	// 	record, err := csvLines.Read()
+	// 	if err == io.EOF {
+	// 		break
+	// 	}
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// 	number += 1
+	// 	priceFloat, err := strconv.ParseFloat(record[1], 64)
+
+	// 	promotion := models.Promotion{
+	// 		Id:    record[0],
+	// 		Price: priceFloat,
+	// 		Time:  record[2],
+	// 	}
+
+	// 	err = db.AddPromotion(promotion)
+	// 	if err != nil {
+	// 		panic(err.Error())
+	// 	}
+
+	// 	fmt.Println(promotion.Id + " " + fmt.Sprintf("%f", promotion.Price) + " " + promotion.Time)
+
+	// 	// if number == 5 {
+	// 	// 	break
+	// 	// }
+	// }
 
 	return nil
 }
