@@ -15,9 +15,9 @@ I could improve the speed of preparing the date and inserting 200,000 less than 
 
 | Chunk Size    | time        | description  |
 | ------------- |:-----------:| -----:|
-| 1             | 30 minutes  | $1600 |
-| 500           | 1.05 minutes|   $12 |
-| 1000          | 45 seconds  |    $1 |
+| 1             | 30 minutes  | per read from csv having single insert |
+| 500           | 1.05 minutes| using bulk insert |
+| 1000          | 45 seconds  | using bulk insert |
 
  I think if I execute each chunked data in a separate gorutiue may be it gives a better result but I don't enough time to test it. I was looking for a mechanism in golang equivalent to Parallel.ForEach in c# 
  
