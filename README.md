@@ -24,11 +24,11 @@ I could improve the speed of preparing the date and inserting 200,000 less than 
 ---
 ## Features, tools and principals that use in this code
 1. Goroutines
-2. goCron
+2. GoCron
 3. GORM
 4. Bulk insert for enhance the performance of insert
 5. Chunk the data which obtain from csv file.
-6. Graceful shutdown for my Webapi by gorutine and context
+6. Graceful shutdown for my Webapi by gorutine and context: if exit the priject by this command `ctrl + c`
 7. Create layering such as data layer and csv service
 8. Using transaction in my bulk insert
 9. AutoMigrate mechanism
