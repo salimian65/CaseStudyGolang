@@ -34,11 +34,3 @@ I could improve the speed of preparing the date and inserting 200,000 less than 
 7. Create layering such as data layer and csv service
 8. Using transaction in my bulk insert
 9. AutoMigrate mechanism
-
-
-## My story
-My name is Mehrdad Salimian. This is my first time Golang project. My time is very limited. But I made an effort to dedicate two days for implementing this project. I am .net developer and I have had 14 years’ experience for designing and developing application. I have heard a lot about the Golang benefits and performances, therefore, I was a bit excited when was engaged in this project also I have a great passion to develop with Golang.
-
-
-
-
